@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mud Lun
 // @namespace    http://tampermonkey.net/
-// @version      18.02 增加猪年礼包
+// @version      18.03 增加猪年礼包
 // @description  游戏辅助脚本
 // @author       Yu
 // @include      http://*.yytou.cn*
