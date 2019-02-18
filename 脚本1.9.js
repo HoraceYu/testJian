@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mud Lun
 // @namespace    http://tampermonkey.net/
-// @version      18.03 增加猪年礼包
+// @version      18.17 增加猪年礼包
 // @description  游戏辅助脚本
 // @author       Yu
 // @include      http://*.yytou.cn*
@@ -32,7 +32,12 @@ var isOnline = true;
             for (var i = 0; i < arr.length; i++) clickButton(arr[i]);
         }
     }
-    
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
     // 执行命令池中的命令
     function delayCmd() {
         // 执行命令池中第一个命令，并从池中删除
@@ -511,9 +516,22 @@ var isOnline = true;
             pozhaoNum : '1',
             DrunkMan_targetName: 'luoyang_luoyang26',
             correctQu: function(){
+
                 var url = window.location.href;
-                var qu = 37;
-                if(url.indexOf('38.yytou') != '-1' ){
+                var qu = null;
+                if (url.indexOf('direct37') != '-1') {
+                    qu = 37;
+                }
+                if (url.indexOf('direct38') != '-1') {
+                    qu = 38;
+                }
+                if (getQueryString('area') == '1') {
+                    qu = 1;
+                }
+                if (getQueryString('area') == '37') {
+                    qu = 37;
+                }
+                if (getQueryString('area') == '38') {
                     qu = 38;
                 }
                 return qu;
@@ -527,7 +545,7 @@ var isOnline = true;
                 return correctSwitch;
             },
             tianjianTarget: '',
-            mySkillLists: '千影百伤棍；九溪断月枪；燎原百破；破军棍诀；排云掌法；如来神掌；九天龙吟剑法；覆雨剑法；雪饮狂刀；翻云刀法；独孤九剑；玄铁剑法；辟邪剑法；天师剑法',
+            mySkillLists: '九溪断月枪；千影百伤棍；燎原百破；破军棍诀；排云掌法；如来神掌；九天龙吟剑法；覆雨剑法；雪饮狂刀；翻云刀法；独孤九剑；玄铁剑法；辟邪剑法；天师剑法',
             skills: function(){
                 // 38区laodap123
                 if(this.getCorrectText('4316804') && this.correctQu() == '38'){
@@ -549,9 +567,9 @@ var isOnline = true;
                     this.mySkillLists = '排云掌法；玄胤天雷；如来神掌；覆雨剑法';
                 }
                 // 37区东方红
-                if(this.getCorrectText('7598500')){
+                if(this.getCorrectText('4253282')){
     
-                    this.mySkillLists = '如来神掌；九溪断月枪；燎原百破';
+                    this.mySkillLists = '九溪断月枪；如来神掌；燎原百破；排云掌法';
                 }
                 // 38区guaji
                 if(this.getCorrectText('4259178')){
@@ -756,7 +774,7 @@ var isOnline = true;
             // go('jh 5;n;n;n;w;sign7;home;');//扬州签到
             // go('jh 1;event_1_763634;home;');//雪亭立冬礼包
             // go('jh 1;e;n;e;e;event_1_44731074;event_1_8041045;event_1_8041045;home;');//消费积分和谜题卡
-            // if(Base.getCorrectText('7598500')){
+            // if(Base.getCorrectText('4253282')){
             //     go("jh 1;e;n;e;e;e;e;n;lq_bysf_lb;home;");//比翼双飞和劳模英豪
             // }
             go('jh 2;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;n;e;n;n;n;w;event_1_31320275;home');//采莲
@@ -835,7 +853,7 @@ var isOnline = true;
             //clickButton('event_1_29721519', 1)
             await clickButtonAsync('event_1_29721519'); // 狗年礼券
             await clickButtonAsync('event_1_60133236'); // 暴击卡福利
-            if(Base.getCorrectText('7598500')){
+            if(Base.getCorrectText('4253282')){
                 await clickButtonAsync('go east');     // 淳风武馆大门
                 await clickButtonAsync('go east') ;    // 淳风武馆教练场
                 await clickButtonAsync('go north') ;    // 淳风武馆教练场
@@ -3101,8 +3119,8 @@ var isOnline = true;
     
         function setQiXiaObj(){
             // 37区大号
-            if(Base.getCorrectText('7598500')){
-                getQiXiaObj('烈九州'); 
+            if(Base.getCorrectText('4253282')){
+                getQiXiaObj('李玄霸'); 
             }
             //38区 张三丰
             else if(Base.getCorrectText('4316804') && Base.correctQu() == '38'){
@@ -3110,24 +3128,32 @@ var isOnline = true;
             }
             //38区 东方大侠
             else if(Base.getCorrectText('4254240') && Base.correctQu() == '38'){
-                getQiXiaObj('风无痕'); 
+                getQiXiaObj('王蓉'); 
             }
             // 37区小号  西方失败
             else if(Base.getCorrectText('4316804') && Base.correctQu() == '37'){
                 getQiXiaObj('烈九州'); 
             }else{
-                getQiXiaObj('护竺'); 
+                getQiXiaObj('吴缜'); 
+            }
+            if(Base.getCorrectText('4254240') && Base.correctQu() == '1'){
+                getQiXiaObj('风无痕'); 
             }
             // 38小号 火树银花
             // if(Base.getCorrectText('4259178') && Base.correctQu() == '38'){
             //     getQiXiaObj('护竺'); 
             // }
+            // 37区东方1-6号
             if(isSixId()){
-                getQiXiaObj('护竺'); 
+                getQiXiaObj('风行骓'); 
+            }
+            // 37区东方1-6号
+            if(isSmallId()){
+                getQiXiaObj('吴缜'); 
             }
             //37区
             // if(Base.getCorrectText('4254240') && Base.correctQu() == '37'){
-            //     getQiXiaObj('吴缜'); 
+            //     getQiXiaObj('李玄霸'); 
             // }
             //37区 火狼
             // if(Base.getCorrectText('4238943')){
@@ -3211,7 +3237,9 @@ var isOnline = true;
                         if(giveJinSwitch == 0){
                             if(mijingNum == 3){
                                 eval("clickButton('auto_zsjd_" + qixiaName1 + "')");
-                            }else if(mijingNum > 3){
+                            }else if(mijingNum ==5 ){
+                                eval("clickButton('ask " + QiXiaId + "')");
+                            }else if(mijingNum > 3 ){
                                 eval("clickButton('auto_zsjd20_" + qixiaName1 + "')");
                             }else{
                                 eval("clickButton('ask " + QiXiaId + "')");
@@ -3992,9 +4020,7 @@ var isOnline = true;
                 await clickButtonAsync('swords');
                 await clickButtonAsync('swords select_member heimuya_dfbb');   // 东方
                 await clickButtonAsync('swords select_member qingcheng_mudaoren');   //木道人
-                if(!Base.getCorrectText('4253282')){
-                    await clickButtonAsync('swords select_member tangmen_madam');  //欧阳敏
-                }
+                await clickButtonAsync('swords select_member tangmen_madam');  //欧阳敏
                 await clickButtonAsync('swords fight_test go');
                 killDrunkIntervalFunc1=setInterval(killDrunMan1,2000);//code
             }
@@ -7520,6 +7546,7 @@ var isOnline = true;
     
             webSocket.onopen = function(event) {
                 console.log(event)
+                goInLine();
             };
     
             webSocket.onclose = function(event) {
@@ -7654,7 +7681,7 @@ var isOnline = true;
             }
             // 6点 签到
             if(hours == 6){
-                // openBangFu();
+                openBangFu();
                 CheckIn();
             }
     
@@ -7693,8 +7720,6 @@ var isOnline = true;
             if(hours == 13 || hours == 14){
                 if(Base.getCorrectText('4240258')  || Base.getCorrectText('3594649')){
                     
-                }else if(Base.getCorrectText('4253282')){
-                    tupoSkills1();
                 }else{
                     tupoSkills2();
                 }
@@ -7739,7 +7764,7 @@ var isOnline = true;
                     go('swords get_drop go');   // 领取论剑奖励
                 }
                 go('clan scene');
-                if(Base.getCorrectText('4253282') && !hasSendMsg){
+                if(Base.getCorrectText('6965572') && !hasSendMsg){
                     go('clan open_double go');
                     if(week == '2' || week == '4' || week == '5' || week == '0'){
                         go('clan open_triple go');
@@ -7749,15 +7774,11 @@ var isOnline = true;
                     var msg = '[CQ:at,qq=35994480] '+json_msg;
                     var json_str = '{"act":"101","groupid":"465355403","msg": "'+msg+'"}';
                     if(isOnline){
-                        webSocket.send(json_str);
-                        webSocket.send(json_str);
-                        webSocket.send(json_str);
+                        // webSocket.send(json_str);
+                        // webSocket.send(json_str);
+                        // webSocket.send(json_str);
                     }
                     
-                }
-
-                if(Base.getCorrectText('6759436')){
-                    go('clan open_double go');
                 }
             }
     
@@ -7875,7 +7896,7 @@ var isOnline = true;
         }
     
         async function openBangFu(){
-            if(isBigBixue() || Base.getCorrectText('6759436') || Base.getCorrectText('4259178') || Base.getCorrectText('6965572')){
+            if(Base.getCorrectText('4253282') || Base.getCorrectText('4259178') || Base.getCorrectText('6965572')){
                 await clickButtonAsync('clan fb open shenshousenlin');
                 await clickButtonAsync('clan fb open daxuemangongdao');
                 await clickButtonAsync('clan fb open longwulianmoge');
@@ -7919,7 +7940,7 @@ var isOnline = true;
             return isLittle;
         }
         function isBigId(){
-            var bigIdArr = ['4253282','4238943','4240258','3594649','4219507','4213224','7598500'];
+            var bigIdArr = ['4253282','4238943','4240258','3594649','4219507','4213224','4253282'];
             var isBig = false;
             for(var i = 0; i <bigIdArr.length; i++){
                 if(Base.getCorrectText(bigIdArr[i])){
@@ -7931,7 +7952,7 @@ var isOnline = true;
         }
     
         function isBigBixue(){
-            var bigIdArr = ['7598500'];
+            var bigIdArr = ['4253282'];
             var isBig = false;
             for(var i = 0; i <bigIdArr.length; i++){
                 if(Base.getCorrectText(bigIdArr[i])){
@@ -7943,7 +7964,7 @@ var isOnline = true;
         }
 
         function isBangPaiStore(){
-            var bigIdArr = ['4253282','4316804','4238943','4219507','5515016','7598500'];
+            var bigIdArr = ['4253282','4316804','4238943','4219507','5515016','4253282'];
             var isBig = false;
             for(var i = 0; i <bigIdArr.length; i++){
                 if(Base.getCorrectText(bigIdArr[i])){
@@ -7979,7 +8000,7 @@ var isOnline = true;
         }
 
         function isVip(){
-            var bigIdArr = ['7598500','4238943','4219507','4240258','3594649' ];
+            var bigIdArr = ['4253282','4238943','4219507','4240258','3594649' ];
             var isBig = false;
             for(var i = 0; i <bigIdArr.length; i++){
                 if(Base.getCorrectText(bigIdArr[i])){
@@ -9022,18 +9043,31 @@ var isOnline = true;
             this.dispatchMessage=function(b){
                 // console.log(b);
                 var type = b.get("type"), subType = b.get("subtype");
-                
-                if(type == 'main_msg' && followTeamSwitch){
+                // console.log(type + ':' + g_simul_efun.replaceControlCharBlank(b.get("msg")));
+                if(type == 'channel'){
                     var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
-                    if(msg.indexOf('队伍') == '-1'){
-                        return;
-                    }
                     //监控大快朵颐
-                    if(Base.getCorrectText('7598500') && msg.match("大快朵颐")!=null){
+                    if(Base.getCorrectText('4253282') && msg.indexOf("大快朵颐") != '-1'){
                         var json_msg = msg;
                         var webSocketMsg = '[CQ:at,qq=35994480] '+json_msg;
                         var json_str = '{"act":"101","groupid":"465355403","msg": "'+webSocketMsg+'"}';
                         webSocket.send(json_str);
+                        return;
+                    }
+                }
+                if(type == 'main_msg'){
+                    var msg = g_simul_efun.replaceControlCharBlank(b.get("msg"));
+
+                    //监控大快朵颐
+                    if(Base.getCorrectText('4253282') && msg.indexOf("大快朵颐") != '-1'){
+                        var json_msg = msg;
+                        var webSocketMsg = '[CQ:at,qq=35994480] '+json_msg;
+                        var json_str = '{"act":"101","groupid":"465355403","msg": "'+webSocketMsg+'"}';
+                        webSocket.send(json_str);
+                        return;
+                    }
+
+                    if(msg.indexOf('队伍') == '-1' || followTeamSwitch == '0'){
                         return;
                     }
                     
@@ -9278,13 +9312,41 @@ var isOnline = true;
                 }
             },15*60*1000);
         }
+        function goInLine(msg){
+            msg = msg ? msg : "噔噔噔噔，挑灯上线了！";
+            if (Base.getCorrectText('4253282')) {
+                var webSocketMsg = '[CQ:at,qq=35994480] '+ msg;
+                var json_str = '{"act":"101","groupid":"291849393","msg": "'+webSocketMsg+'"}';
+                console.log(json_str);
+                webSocket.send(json_str);
+            }
+        }
         // 加载完后运行
         $(function(){
             if(Base.getCorrectText('3594649') || Base.getCorrectText('4238943')){
                 bindKey();
             }
+            if (Base.getCorrectText('4253282')) {
+                setInterval(function () {
+                    reLoad();
+                }, 2000);
+            }
             attach();
         })
+        window.hasSendReload = false;
+        // 重新加载
+        function reLoad() {
+            let disconnectDom = $('span:contains(取代了你的连线)');
+            if(disconnectDom.length >0 && !hasSendReload){
+                hasSendReload = true;
+                goInLine("Duang，挑灯被顶下线了！")
+                // var json_str = '{"act":"106","QQID":"35994480","msg": "账号掉线了"}';
+                // var webSocketMsg = '[CQ:at,qq=35994480] '+ "Duang，挑灯被顶下线了！";
+                // var json_str = '{"act":"101","groupid":"291849393","msg": "'+webSocketMsg+'"}';
+                // console.log(json_str);
+                // webSocket.send(json_str);
+            }
+        }
     })();
     
     
