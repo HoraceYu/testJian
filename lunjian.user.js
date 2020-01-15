@@ -1,10 +1,10 @@
 // ==UserScript==
-	// @name         mud Lun
+	// @name         new论剑辅助
 	// @namespace    http://tampermonkey.net/
 	// @version      1.1
 	// @description  脚本有风险 使用需谨慎
 	// @author       yu
-	// @updateURL	 http://forcwz.github.io/lj/port.user.js
+	// @updateURL	 https://github.com/HoraceYu/testJian/blob/master/lunjian.user.js
     // @include      http://*.yytou.cn*
 	// @grant        none
 // ==/UserScript==
